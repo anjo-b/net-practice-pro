@@ -1,0 +1,1989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Net Practice Pro - Complete IP & Subnetting Guide</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="particleCanvas" aria-hidden="true"></canvas>
+
+<a href="#main-content" class="skip-link">Skip to content</a>
+
+<div class="container" id="main-content" role="main">
+    <header>
+        <div class="header-content">
+            <h1>Net Practice Pro</h1>
+            <p>Complete IP Addressing & Subnetting Guide</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.75rem">
+            <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle dark mode" title="Toggle dark mode">☀️</button>
+            <div class="menu-container">
+                <button class="menu-btn" onclick="toggleMenu()" aria-expanded="false" aria-controls="mainMenu" aria-label="Main navigation menu" aria-haspopup="true">Menu</button>
+                <div class="menu-dropdown" id="mainMenu" role="menu" aria-label="Page sections">
+                    <button class="menu-item" id="mi-decoder" role="menuitem" onclick="switchTab('decoder')">Magic Decoder</button>
+                    <button class="menu-item" id="mi-conversion" role="menuitem" onclick="switchTab('conversion')">Binary Guide</button>
+                    <button class="menu-item" id="mi-classes" role="menuitem" onclick="switchTab('classes')">IP Classes</button>
+                    <button class="menu-item" id="mi-intervals" role="menuitem" onclick="switchTab('intervals')">Subnet Intervals</button>
+                    <button class="menu-item" id="mi-divider" role="menuitem" onclick="switchTab('divider')">Block Divider</button>
+                    <button class="menu-item" id="mi-maskcalc" role="menuitem" onclick="switchTab('maskcalc')">From Mask</button>
+                    <button class="menu-item" id="mi-subnetting" role="menuitem" onclick="switchTab('subnetting')">Subnetting</button>
+                    <button class="menu-item" id="mi-unified" role="menuitem" onclick="switchTab('unified')">Unified Tool</button>
+                    <button class="menu-item" id="mi-reference" role="menuitem" onclick="switchTab('reference')">Quick Reference</button>
+                    <button class="menu-item" id="mi-vlsm" role="menuitem" onclick="switchTab('vlsm')">VLSM</button>
+                    <button class="menu-item" id="mi-nettools" role="menuitem" onclick="switchTab('nettools')">Network Tools</button>
+                    <button class="menu-item" id="mi-challenge" role="menuitem" onclick="switchTab('challenge')">Challenge</button>
+                    <button class="menu-item" id="mi-diagram" role="menuitem" onclick="switchTab('diagram')">Network Diagram</button>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- TAB 1: MAGIC DECODER CHART -->
+    <div id="decoder" class="tab-content" role="tabpanel" aria-labelledby="mi-decoder">
+        <div class="card">
+            <span class="section-tag">Essential Tool</span>
+            <h2>🎯 The Magic Decoder Chart</h2>
+            <p class="card-subtitle">The single most important chart in networking - MEMORIZE THIS!</p>
+            
+            <div class="decoder-grid">
+                <div class="decoder-box">
+                    <div class="decoder-bit">2⁷</div>
+                    <div class="decoder-value">128</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2⁶</div>
+                    <div class="decoder-value">64</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2⁵</div>
+                    <div class="decoder-value">32</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2⁴</div>
+                    <div class="decoder-value">16</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2³</div>
+                    <div class="decoder-value">8</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2²</div>
+                    <div class="decoder-value">4</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2¹</div>
+                    <div class="decoder-value">2</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2⁰</div>
+                    <div class="decoder-value">1</div>
+                </div>
+            </div>
+            
+            <div class="note-box">
+                <p><strong>💡 The Pattern:</strong> Each position is double the previous → 1, 2, 4, 8, 16, 32, 64, 128</p>
+                <p style="margin-top: 10px;"><strong>💡 Why It Matters:</strong> This chart converts binary to decimal AND solves subnet problems!</p>
+            </div>
+            
+            <h3>How to Use: Binary → Decimal</h3>
+            
+            <div class="interactive-calculator">
+                <h4>Binary to Decimal Converter</h4>
+                <div class="calc-input-group">
+                    <label for="binInput">Enter Binary (8 bits):</label>
+                    <input
+                        type="text"
+                        id="binInput"
+                        maxlength="8"
+                        pattern="[01]{8}"
+                        inputmode="numeric"
+                        placeholder="11111111"
+                        oninput="sanitizeBinaryInput(this); convertBinToDec()">
+                </div>
+                <div class="calc-result" id="binResult" aria-live="polite"></div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-title">Example 1: Convert 11000000 to decimal</div>
+                
+                <table class="edu-table">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>128</th>
+                            <th>64</th>
+                            <th>32</th>
+                            <th>16</th>
+                            <th>8</th>
+                            <th>4</th>
+                            <th>2</th>
+                            <th>1</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Binary</strong></td>
+                            <td class="highlight-cell">1</td>
+                            <td class="highlight-cell">1</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Add</strong></td>
+                            <td class="highlight-cell">128</td>
+                            <td class="highlight-cell">64</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="formula-box">128 + 64 = 192</div>
+                <p style="text-align: center; margin-top: 10px; color: var(--text-main);"><strong>Answer: 11000000 = 192</strong></p>
+            </div>
+            
+            <div class="example-box">
+                <div class="example-title">Example 2: Convert 10101100 to decimal</div>
+                
+                <table class="edu-table">
+                    <thead>
+                        <tr>
+                            <th>Position</th>
+                            <th>128</th>
+                            <th>64</th>
+                            <th>32</th>
+                            <th>16</th>
+                            <th>8</th>
+                            <th>4</th>
+                            <th>2</th>
+                            <th>1</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Binary</strong></td>
+                            <td class="highlight-cell">1</td>
+                            <td>0</td>
+                            <td class="highlight-cell">1</td>
+                            <td>0</td>
+                            <td class="highlight-cell">1</td>
+                            <td class="highlight-cell">1</td>
+                            <td>0</td>
+                            <td>0</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Add</strong></td>
+                            <td class="highlight-cell">128</td>
+                            <td>-</td>
+                            <td class="highlight-cell">32</td>
+                            <td>-</td>
+                            <td class="highlight-cell">8</td>
+                            <td class="highlight-cell">4</td>
+                            <td>-</td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="formula-box">128 + 32 + 8 + 4 = 172</div>
+                <p style="text-align: center; margin-top: 10px; color: var(--text-main);"><strong>Answer: 10101100 = 172</strong></p>
+            </div>
+            
+
+        </div>
+    </div>
+    
+    <!-- TAB 2: BINARY CONVERSION -->
+    <div id="conversion" class="tab-content" role="tabpanel" aria-labelledby="mi-conversion">
+        <div class="card">
+            <span class="section-tag">Core Skill</span>
+            <h2>🔄 Decimal to Binary Conversion</h2>
+            <p class="card-subtitle">Master both directions: Decimal → Binary and Binary → Decimal</p>
+            
+            <div class="interactive-calculator">
+                <h4>Decimal to Binary Converter</h4>
+                <div class="calc-input-group">
+                    <label for="decInput">Enter Decimal (0-255):</label>
+                    <input type="text" id="decInput" inputmode="numeric" maxlength="3" placeholder="192" oninput="sanitizeDecimalByte(this); convertDecToBin()">
+                </div>
+                <div class="calc-result" id="decResult" aria-live="polite"></div>
+            </div>
+
+            <h3>Method: Decimal → Binary</h3>
+            
+            <div class="step-container">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    Write the Magic Numbers
+                </div>
+                <p style="margin-left: 40px; color: var(--text-light);">128, 64, 32, 16, 8, 4, 2, 1</p>
+            </div>
+            
+            <div class="step-container">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    Start from 128 - does it fit?
+                </div>
+                <p style="margin-left: 40px; color: var(--text-light);">If YES → write "1" and subtract. If NO → write "0" and move on.</p>
+            </div>
+            
+            <div class="step-container">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    Repeat for each position until you reach 0
+                </div>
+            </div>
+            
+            <div class="example-box">
+                <div class="example-title">Example: Convert 207 to Binary</div>
+                <p style="margin-bottom: 0.75rem;">Start with: <strong>207</strong></p>
+
+                <div class="dec-steps-table-wrap">
+                    <table class="edu-table dec-steps-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Power</th>
+                                <th>Value</th>
+                                <th>Fits?</th>
+                                <th>Bit</th>
+                                <th>Remainder</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="step-fit">
+                                <td>1</td>
+                                <td>2<sup>7</sup> = 128</td>
+                                <td>207</td>
+                                <td><span class="step-icon fit">&#10004; Yes</span></td>
+                                <td class="step-bit">1</td>
+                                <td>79</td>
+                            </tr>
+                            <tr class="step-fit">
+                                <td>2</td>
+                                <td>2<sup>6</sup> = 64</td>
+                                <td>79</td>
+                                <td><span class="step-icon fit">&#10004; Yes</span></td>
+                                <td class="step-bit">1</td>
+                                <td>15</td>
+                            </tr>
+                            <tr class="step-nofit">
+                                <td>3</td>
+                                <td>2<sup>5</sup> = 32</td>
+                                <td>15</td>
+                                <td><span class="step-icon nofit">&#10008; No</span></td>
+                                <td class="step-bit">0</td>
+                                <td>15</td>
+                            </tr>
+                            <tr class="step-nofit">
+                                <td>4</td>
+                                <td>2<sup>4</sup> = 16</td>
+                                <td>15</td>
+                                <td><span class="step-icon nofit">&#10008; No</span></td>
+                                <td class="step-bit">0</td>
+                                <td>15</td>
+                            </tr>
+                            <tr class="step-fit">
+                                <td>5</td>
+                                <td>2<sup>3</sup> = 8</td>
+                                <td>15</td>
+                                <td><span class="step-icon fit">&#10004; Yes</span></td>
+                                <td class="step-bit">1</td>
+                                <td>7</td>
+                            </tr>
+                            <tr class="step-fit">
+                                <td>6</td>
+                                <td>2<sup>2</sup> = 4</td>
+                                <td>7</td>
+                                <td><span class="step-icon fit">&#10004; Yes</span></td>
+                                <td class="step-bit">1</td>
+                                <td>3</td>
+                            </tr>
+                            <tr class="step-fit">
+                                <td>7</td>
+                                <td>2<sup>1</sup> = 2</td>
+                                <td>3</td>
+                                <td><span class="step-icon fit">&#10004; Yes</span></td>
+                                <td class="step-bit">1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr class="step-fit">
+                                <td>8</td>
+                                <td>2<sup>0</sup> = 1</td>
+                                <td>1</td>
+                                <td><span class="step-icon fit">&#10004; Yes</span></td>
+                                <td class="step-bit">1</td>
+                                <td>0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="formula-box">11001111</div>
+                <p style="text-align: center; margin-top: 10px; color: var(--text-main);"><strong>Decimal 207 = Binary 11001111</strong></p>
+            </div>
+            
+            <h3>Common Subnet Mask Values</h3>
+            <p class="card-subtitle">These appear constantly in networking - memorize them!</p>
+            
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Decimal</th>
+                        <th>Binary</th>
+                        <th>Common Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>255</strong></td>
+                        <td>11111111</td>
+                        <td>Network portion (all 1s)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>254</strong></td>
+                        <td>11111110</td>
+                        <td>/31 mask</td>
+                    </tr>
+                    <tr>
+                        <td><strong>252</strong></td>
+                        <td>11111100</td>
+                        <td>/30 mask (4 IPs, 2 usable)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>248</strong></td>
+                        <td>11111000</td>
+                        <td>/29 mask (8 IPs)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>240</strong></td>
+                        <td>11110000</td>
+                        <td>/28 mask (16 IPs)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>224</strong></td>
+                        <td>11100000</td>
+                        <td>/27 mask (32 IPs)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>192</strong></td>
+                        <td>11000000</td>
+                        <td>/26 mask (64 IPs)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>128</strong></td>
+                        <td>10000000</td>
+                        <td>/25 mask (128 IPs)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>0</strong></td>
+                        <td>00000000</td>
+                        <td>Host portion (all 0s)</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="quick-tips">
+                <h4>🎯 Pro Tips</h4>
+                <div class="dec-steps-table-wrap">
+                    <table class="edu-table dec-steps-table">
+                        <thead>
+                            <tr>
+                                <th>Binary</th>
+                                <th>Decimal</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="step-bit">11111111</td>
+                                <td><strong>255</strong></td>
+                                <td>All bits on — memorize!</td>
+                            </tr>
+                            <tr>
+                                <td class="step-bit">10000000</td>
+                                <td><strong>128</strong></td>
+                                <td>Only the highest bit</td>
+                            </tr>
+                            <tr>
+                                <td class="step-bit">11000000</td>
+                                <td><strong>192</strong></td>
+                                <td>128 + 64</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="note-box" style="margin-top: 1rem;">
+                    <p><strong>💡 Remember:</strong> More 1s from the left = bigger number. Practice daily — you'll get fast!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- TAB 3: IP CLASSES -->
+    <div id="classes" class="tab-content" role="tabpanel" aria-labelledby="mi-classes">
+        <div class="card">
+            <span class="section-tag">Network Types</span>
+            <h2>📋 IP Address Classes</h2>
+            <p class="card-subtitle">Legacy system still used for understanding network size</p>
+            
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Range</th>
+                        <th>Default Mask</th>
+                        <th>CIDR</th>
+                        <th>Networks</th>
+                        <th>Hosts/Network</th>
+                        <th>Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>A</strong></td>
+                        <td>1-126</td>
+                        <td>255.0.0.0</td>
+                        <td>/8</td>
+                        <td>126</td>
+                        <td>16,777,214</td>
+                        <td>Huge orgs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>B</strong></td>
+                        <td>128-191</td>
+                        <td>255.255.0.0</td>
+                        <td>/16</td>
+                        <td>16,384</td>
+                        <td>65,534</td>
+                        <td>Med orgs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C</strong></td>
+                        <td>192-223</td>
+                        <td>255.255.255.0</td>
+                        <td>/24</td>
+                        <td>2,097,152</td>
+                        <td>254</td>
+                        <td>Small nets</td>
+                    </tr>
+                    <tr style="background: var(--neutral-tint); color: var(--text-muted);">
+                        <td><strong>D</strong></td>
+                        <td>224-239</td>
+                        <td colspan="5" style="text-align: center;">Multicast</td>
+                    </tr>
+                    <tr style="background: var(--neutral-tint); color: var(--text-muted);">
+                        <td><strong>E</strong></td>
+                        <td>240-255</td>
+                        <td colspan="5" style="text-align: center;">Experimental/Reserved</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="note-box">
+                <p><strong>Why skip 127?</strong> The entire 127.0.0.0/8 range is reserved for loopback. 127.0.0.1 = localhost (your computer talking to itself)</p>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Private IP Ranges (RFC 1918)</h2>
+            <p class="card-subtitle">These are NOT routable on the public internet - use for internal networks</p>
+            
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Class</th>
+                        <th>Private Range</th>
+                        <th>CIDR</th>
+                        <th>Total IPs</th>
+                        <th>Common Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>A</strong></td>
+                        <td>10.0.0.0 - 10.255.255.255</td>
+                        <td>10.0.0.0/8</td>
+                        <td>16,777,216</td>
+                        <td>Large enterprises</td>
+                    </tr>
+                    <tr>
+                        <td><strong>B</strong></td>
+                        <td>172.16.0.0 - 172.31.255.255</td>
+                        <td>172.16.0.0/12</td>
+                        <td>1,048,576</td>
+                        <td>Medium orgs</td>
+                    </tr>
+                    <tr>
+                        <td><strong>C</strong></td>
+                        <td>192.168.0.0 - 192.168.255.255</td>
+                        <td>192.168.0.0/16</td>
+                        <td>65,536</td>
+                        <td>Home/small office</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card">
+            <h2>Special Purpose Addresses</h2>
+            
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Address/Range</th>
+                        <th>Purpose</th>
+                        <th>Example</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>127.0.0.0/8</strong></td>
+                        <td>Loopback</td>
+                        <td>127.0.0.1 (localhost)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>169.254.0.0/16</strong></td>
+                        <td>APIPA (auto-config when DHCP fails)</td>
+                        <td>169.254.1.1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>0.0.0.0/8</strong></td>
+                        <td>This network / Default route</td>
+                        <td>0.0.0.0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>255.255.255.255</strong></td>
+                        <td>Limited broadcast</td>
+                        <td>Broadcasts to local network</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <!-- TAB 4: SUBNET INTERVALS -->
+    <div id="intervals" class="tab-content" role="tabpanel" aria-labelledby="mi-intervals">
+        <div class="card">
+            <span class="section-tag">Critical Concept</span>
+            <h2>📐 Subnet Intervals Explained</h2>
+            <p class="card-subtitle">The "block size" or "magic number" for finding subnet boundaries</p>
+            
+            <div class="interactive-calculator">
+                <h4>Interval Calculator</h4>
+                <div class="calc-input-group">
+                    <label for="maskOctet">Subnet Mask Octet:</label>
+                    <input type="text" id="maskOctet" inputmode="numeric" maxlength="3" placeholder="e.g., 240" oninput="sanitizeDecimalByte(this); calculateInterval()">
+                </div>
+                <div class="calc-result" id="intervalResult" aria-live="polite"></div>
+            </div>
+
+            <div class="note-box">
+                <p><strong>What is the Interval?</strong></p>
+                <p>The interval (or block size) is how many IP addresses are in each subnet. It's the key to finding network boundaries quickly!</p>
+            </div>
+            
+            <h3>How to Calculate the Interval</h3>
+            
+            <div class="step-container">
+                <div class="step-title">
+                    <span class="step-number">1</span>
+                    Look at the subnet mask
+                </div>
+                <p style="margin-left: 40px; color: var(--text-light);">Example: 255.255.255.192</p>
+            </div>
+            
+            <div class="step-container">
+                <div class="step-title">
+                    <span class="step-number">2</span>
+                    Find the "interesting octet" (the one that's not 255 or 0)
+                </div>
+                <p style="margin-left: 40px; color: var(--text-light);">In this case: <strong>192</strong> (4th octet)</p>
+            </div>
+            
+            <div class="step-container">
+                <div class="step-title">
+                    <span class="step-number">3</span>
+                    Subtract from 256
+                </div>
+                <div class="formula-box" style="margin: 15px 0;">256 - 192 = 64</div>
+                <p style="margin-left: 40px; color: var(--text-light);"><strong>The interval is 64!</strong></p>
+            </div>
+            
+            <h3>Interval Table — Memorize This!</h3>
+            
+            <table class="edu-table dec-steps-table">
+                <thead>
+                    <tr>
+                        <th>CIDR</th>
+                        <th>Subnet Mask</th>
+                        <th>Last Octet</th>
+                        <th>Interval (256-X)</th>
+                        <th>Total IPs</th>
+                        <th>Usable</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>/24</td>
+                        <td>255.255.255.0</td>
+                        <td>0</td>
+                        <td class="highlight-cell">256</td>
+                        <td>256</td>
+                        <td>254</td>
+                    </tr>
+                    <tr>
+                        <td>/25</td>
+                        <td>255.255.255.128</td>
+                        <td>128</td>
+                        <td class="highlight-cell">128</td>
+                        <td>128</td>
+                        <td>126</td>
+                    </tr>
+                    <tr>
+                        <td>/26</td>
+                        <td>255.255.255.192</td>
+                        <td>192</td>
+                        <td class="highlight-cell">64</td>
+                        <td>64</td>
+                        <td>62</td>
+                    </tr>
+                    <tr>
+                        <td>/27</td>
+                        <td>255.255.255.224</td>
+                        <td>224</td>
+                        <td class="highlight-cell">32</td>
+                        <td>32</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>/28</td>
+                        <td>255.255.255.240</td>
+                        <td>240</td>
+                        <td class="highlight-cell">16</td>
+                        <td>16</td>
+                        <td>14</td>
+                    </tr>
+                    <tr>
+                        <td>/29</td>
+                        <td>255.255.255.248</td>
+                        <td>248</td>
+                        <td class="highlight-cell">8</td>
+                        <td>8</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>/30</td>
+                        <td>255.255.255.252</td>
+                        <td>252</td>
+                        <td class="highlight-cell">4</td>
+                        <td>4</td>
+                        <td>2</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="example-box">
+                <div class="example-title">Example: Find all subnets in 192.168.1.0/26</div>
+                
+                <div class="step-container" >
+                    <div class="step-title" style="color: var(--text-main);">
+                        <span class="step-number" style="background: var(--primary);">1</span>
+                        Find the interval
+                    </div>
+                    <p style="margin-left: 40px; color: var(--text-main);">
+                        Mask = 255.255.255.192<br>
+                        Interval = 256 - 192 = <strong>64</strong>
+                    </p>
+                </div>
+                
+                <div class="step-container" >
+                    <div class="step-title" style="color: var(--text-main);">
+                        <span class="step-number" style="background: var(--primary);">2</span>
+                        Count by the interval in the interesting octet
+                    </div>
+                    <p style="margin-left: 40px; color: var(--text-main);">
+                        Start at 0, count by 64: 0, 64, 128, 192
+                    </p>
+                </div>
+                
+                <table class="edu-table" style="margin-top: 15px;">
+                    <thead>
+                        <tr>
+                            <th>Subnet</th>
+                            <th>Network</th>
+                            <th>First Usable</th>
+                            <th>Last Usable</th>
+                            <th>Broadcast</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>192.168.1.0</td>
+                            <td>192.168.1.1</td>
+                            <td>192.168.1.62</td>
+                            <td>192.168.1.63</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>192.168.1.64</td>
+                            <td>192.168.1.65</td>
+                            <td>192.168.1.126</td>
+                            <td>192.168.1.127</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>192.168.1.128</td>
+                            <td>192.168.1.129</td>
+                            <td>192.168.1.190</td>
+                            <td>192.168.1.191</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>192.168.1.192</td>
+                            <td>192.168.1.193</td>
+                            <td>192.168.1.254</td>
+                            <td>192.168.1.255</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+    </div>
+
+    <!-- TAB: BLOCK DIVIDER -->
+    <div id="divider" class="tab-content" role="tabpanel" aria-labelledby="mi-divider">
+        <div class="card">
+            <span class="section-tag">Visual Tool</span>
+            <h2>📊 Subnet Block Divider</h2>
+            <p class="card-subtitle">Watch a network block get divided into subnets in real time</p>
+
+            <div class="interactive-calculator">
+                <h4>Interactive Visualizer</h4>
+                <div class="calc-input-group">
+                    <label for="dividerBaseIP">Base Network:</label>
+                    <input type="text" id="dividerBaseIP" inputmode="numeric" placeholder="192.168.1.0" value="192.168.1.0" oninput="sanitizeIpInput(this); updateBlockDivider()" aria-label="Base network IP address">
+                </div>
+                <div class="calc-input-group">
+                    <label for="dividerBaseCIDR">Starting CIDR:</label>
+                    <select id="dividerBaseCIDR" onchange="updateBlockDivider()" aria-label="Starting CIDR prefix length">
+                        <option value="8">/8</option>
+                        <option value="16">/16</option>
+                        <option value="20">/20</option>
+                        <option value="22">/22</option>
+                        <option value="24" selected>/24</option>
+                    </select>
+                </div>
+                <div class="divider-slider-wrap">
+                    <label>Slide to subnet into: <strong id="dividerTargetLabel">/24 (no split)</strong></label>
+                    <input type="range" id="dividerSlider" min="0" max="6" value="0" class="divider-slider" oninput="updateBlockDivider()" aria-label="Number of bits to borrow for subnetting">
+                    <div class="divider-slider-ticks" id="dividerTicks"></div>
+                </div>
+                <div id="dividerStats" class="divider-stats" aria-live="polite"></div>
+                <div id="dividerVisual" aria-live="polite"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- TAB 5: CALCULATE FROM MASK -->
+    <div id="maskcalc" class="tab-content" role="tabpanel" aria-labelledby="mi-maskcalc">
+        <div class="card">
+            <span class="section-tag">Practical Skills</span>
+            <h2>🧮 Calculate Everything from a Mask</h2>
+            <p class="card-subtitle">Given an IP and mask, find network, broadcast, and host range</p>
+            
+            <div class="interactive-calculator">
+                <h4>Interactive Subnet Calculator</h4>
+                <div class="calc-input-group">
+                    <label for="calcIP">IP Address:</label>
+                    <input type="text" id="calcIP" inputmode="numeric" placeholder="192.168.1.50" oninput="sanitizeIpInput(this)" aria-label="IP address for subnet calculation">
+                </div>
+                <div class="calc-input-group">
+                    <label for="calcCIDR">CIDR:</label>
+                    <input type="text" id="calcCIDR" inputmode="numeric" maxlength="2" placeholder="24" oninput="sanitizeCidrInput(this)" aria-label="CIDR prefix length">
+                </div>
+                <button onclick="calculateFromMask()" style="width: 100%; margin-top: 10px;">Calculate All Parameters</button>
+                <div class="calc-result" id="calcResults" aria-live="polite"></div>
+            </div>
+
+            <h3>The Process (Step-by-Step)</h3>
+            
+            <div class="example-box">
+                <div class="example-title">Example: 172.16.45.200/20 - Find all parameters</div>
+                
+                <div class="step-container" >
+                    <div class="step-title" style="color: var(--text-main);">
+                        <span class="step-number" style="background: var(--primary);">1</span>
+                        Convert /20 to subnet mask
+                    </div>
+                    <p style="margin-left: 40px; color: var(--text-main);">
+                        /20 means 20 bits are "on" (1s)<br>
+                        First 2 octets: 255.255 (16 bits)<br>
+                        Third octet needs 4 more bits: 11110000 = 240<br>
+                        <strong>Mask: 255.255.240.0</strong>
+                    </p>
+                </div>
+                
+                <div class="step-container" >
+                    <div class="step-title" style="color: var(--text-main);">
+                        <span class="step-number" style="background: var(--primary);">2</span>
+                        Find the interval (block size)
+                    </div>
+                    <p style="margin-left: 40px; color: var(--text-main);">
+                        Interesting octet: 240 (3rd octet)<br>
+                        256 - 240 = <strong>16</strong>
+                    </p>
+                </div>
+                
+                <div class="step-container" >
+                    <div class="step-title" style="color: var(--text-main);">
+                        <span class="step-number" style="background: var(--primary);">3</span>
+                        Find which subnet 45 falls into
+                    </div>
+                    <p style="margin-left: 40px; color: var(--text-main);">
+                        Count by 16 in 3rd octet: 0, 16, 32, <strong>48</strong><br>
+                        45 is between 32 and 48, so it's in the subnet starting at 32
+                    </p>
+                </div>
+                
+                <div class="step-container" >
+                    <div class="step-title" style="color: var(--text-main);">
+                        <span class="step-number" style="background: var(--primary);">4</span>
+                        Calculate all addresses
+                    </div>
+                    <table class="edu-table" style="margin-top: 15px; width: 100%;">
+                        <tbody>
+                            <tr>
+                                <td><strong>Network Address:</strong></td>
+                                <td>172.16.32.0</td>
+                            </tr>
+                            <tr>
+                                <td><strong>First Usable:</strong></td>
+                                <td>172.16.32.1</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Last Usable:</strong></td>
+                                <td>172.16.47.254</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Broadcast:</strong></td>
+                                <td>172.16.47.255</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Hosts:</strong></td>
+                                <td>4,096</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Usable Hosts:</strong></td>
+                                <td>4,094</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="quick-tips">
+                <h4>🎯 Quick Formulas</h4>
+                <div class="dec-steps-table-wrap">
+                    <table class="edu-table dec-steps-table">
+                        <thead>
+                            <tr>
+                                <th>What</th>
+                                <th>Formula</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Network</strong></td>
+                                <td>Start of interval</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Broadcast</strong></td>
+                                <td>(Start of next interval) − 1</td>
+                            </tr>
+                            <tr>
+                                <td><strong>First Usable</strong></td>
+                                <td>Network + 1</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Last Usable</strong></td>
+                                <td>Broadcast − 1</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Total Hosts</strong></td>
+                                <td>2<sup>(32 − CIDR)</sup></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Usable Hosts</strong></td>
+                                <td>Total − 2</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- TAB 6: SUBNETTING -->
+    <div id="subnetting" class="tab-content" role="tabpanel" aria-labelledby="mi-subnetting">
+        <div class="card">
+            <span class="section-tag">Master Skill</span>
+            <h2>🔪 How to Subnet a Network</h2>
+            <p class="card-subtitle">Break one big network into smaller subnets</p>
+            
+            <div class="interactive-calculator">
+                <h4>Interactive Subnet Creator</h4>
+                <div class="calc-input-group">
+                    <label for="subnetBaseIP">Base Network:</label>
+                    <input type="text" id="subnetBaseIP" inputmode="numeric" placeholder="192.168.1.0" oninput="sanitizeIpInput(this)" aria-label="Base network IP for subnetting">
+                </div>
+                <div class="calc-input-group">
+                    <label for="subnetBaseCIDR">Base CIDR:</label>
+                    <input type="text" id="subnetBaseCIDR" inputmode="numeric" maxlength="2" placeholder="24" oninput="sanitizeCidrInput(this)" aria-label="Base CIDR prefix for subnetting">
+                </div>
+                <div class="calc-input-group">
+                    <label for="subnetCount">Subnets Needed:</label>
+                    <input type="text" id="subnetCount" inputmode="numeric" maxlength="3" placeholder="4" oninput="sanitizeSubnetCount(this)" aria-label="Number of subnets needed">
+                </div>
+                <button onclick="createSubnets()" style="width: 100%; margin-top: 10px;">Create Subnets</button>
+                <div class="calc-result" id="subnetResults" aria-live="polite"></div>
+            </div>
+
+            <h3>The Subnetting Formula</h3>
+            
+            <div class="formula-box">2^n ≥ Number of Subnets Needed</div>
+            <p style="text-align: center; color: var(--text-light); margin-top: 10px;">
+                Where <strong>n</strong> = number of bits to borrow from the host portion
+            </p>
+            
+            <div class="example-box">
+                <div class="example-title">Example: Split 192.168.1.0/24 into 4 subnets</div>
+                
+                <div class="step-container" >
+                    <div class="step-title" style="color: var(--text-main);">
+                        <span class="step-number" style="background: var(--primary);">1</span>
+                        How many bits do we need?
+                    </div>
+                    <p style="margin-left: 40px; color: var(--text-main);">
+                        2^1 = 2 (not enough)<br>
+                        2^2 = 4 (perfect!)<br>
+                        We need to borrow <strong>2 bits</strong>
+                    </p>
+                </div>
+                
+                <div class="step-container" >
+                    <div class="step-title" style="color: var(--text-main);">
+                        <span class="step-number" style="background: var(--primary);">2</span>
+                        New CIDR notation
+                    </div>
+                    <p style="margin-left: 40px; color: var(--text-main);">
+                        Original: /24<br>
+                        Add 2 borrowed bits: /24 + 2 = <strong>/26</strong>
+                    </p>
+                </div>
+                
+                <div class="step-container" >
+                    <div class="step-title" style="color: var(--text-main);">
+                        <span class="step-number" style="background: var(--primary);">3</span>
+                        New subnet mask
+                    </div>
+                    <p style="margin-left: 40px; color: var(--text-main);">
+                        /26 = 255.255.255.192<br>
+                        Interval: 256 - 192 = <strong>64</strong>
+                    </p>
+                </div>
+                
+                <div class="step-container" >
+                    <div class="step-title" style="color: var(--text-main);">
+                        <span class="step-number" style="background: var(--primary);">4</span>
+                        List all subnets
+                    </div>
+                    <table class="edu-table" style="margin-top: 15px; width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>Subnet</th>
+                                <th>Network</th>
+                                <th>Usable Range</th>
+                                <th>Broadcast</th>
+                                <th>Hosts</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>192.168.1.0</td>
+                                <td>192.168.1.1 - 192.168.1.62</td>
+                                <td>192.168.1.63</td>
+                                <td>62</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>192.168.1.64</td>
+                                <td>192.168.1.65 - 192.168.1.126</td>
+                                <td>192.168.1.127</td>
+                                <td>62</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>192.168.1.128</td>
+                                <td>192.168.1.129 - 192.168.1.190</td>
+                                <td>192.168.1.191</td>
+                                <td>62</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>192.168.1.192</td>
+                                <td>192.168.1.193 - 192.168.1.254</td>
+                                <td>192.168.1.255</td>
+                                <td>62</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2>Common Subnetting Scenarios</h2>
+            
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Need X Subnets</th>
+                        <th>Borrow Bits</th>
+                        <th>Get Subnets</th>
+                        <th>From /24 becomes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2 subnets</td>
+                        <td>1 bit</td>
+                        <td>2</td>
+                        <td>/25 (128 hosts each)</td>
+                    </tr>
+                    <tr>
+                        <td>3-4 subnets</td>
+                        <td>2 bits</td>
+                        <td>4</td>
+                        <td>/26 (62 hosts each)</td>
+                    </tr>
+                    <tr>
+                        <td>5-8 subnets</td>
+                        <td>3 bits</td>
+                        <td>8</td>
+                        <td>/27 (30 hosts each)</td>
+                    </tr>
+                    <tr>
+                        <td>9-16 subnets</td>
+                        <td>4 bits</td>
+                        <td>16</td>
+                        <td>/28 (14 hosts each)</td>
+                    </tr>
+                    <tr>
+                        <td>17-32 subnets</td>
+                        <td>5 bits</td>
+                        <td>32</td>
+                        <td>/29 (6 hosts each)</td>
+                    </tr>
+                    <tr>
+                        <td>33-64 subnets</td>
+                        <td>6 bits</td>
+                        <td>64</td>
+                        <td>/30 (2 hosts each)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div id="unified" class="tab-content active" role="tabpanel" aria-labelledby="mi-unified">
+        <div class="card">
+            <h3>🎯 The Magic Decoder Chart</h3>
+            <div class="decoder-grid">
+                <div class="decoder-box">
+                    <div class="decoder-bit">2⁷</div>
+                    <div class="decoder-value">128</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2⁶</div>
+                    <div class="decoder-value">64</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2⁵</div>
+                    <div class="decoder-value">32</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2⁴</div>
+                    <div class="decoder-value">16</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2³</div>
+                    <div class="decoder-value">8</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2²</div>
+                    <div class="decoder-value">4</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2¹</div>
+                    <div class="decoder-value">2</div>
+                </div>
+                <div class="decoder-box">
+                    <div class="decoder-bit">2⁰</div>
+                    <div class="decoder-value">1</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2 class="callback-title">🛠️ Smart Unified Network Assistant</h2>
+
+            <form class="callback-form" onsubmit="event.preventDefault(); parseUnifiedInput();">
+                <div class="cb-row">
+                    <div class="cb-field">
+                        <input type="text" id="uniIP" placeholder=" " autocomplete="off" spellcheck="false" inputmode="numeric" oninput="sanitizeIpInput(this)">
+                        <label for="uniIP">IP Address</label>
+                    </div>
+                    <div class="cb-field">
+                        <input type="text" id="uniMask" placeholder=" " autocomplete="off" spellcheck="false" inputmode="numeric" oninput="sanitizeMaskInput(this)">
+                        <label for="uniMask">Subnet Mask</label>
+                    </div>
+                </div>
+
+                <div class="cb-row">
+                    <div class="cb-field">
+                        <input type="text" id="uniCIDR" inputmode="numeric" maxlength="2" placeholder=" " autocomplete="off" spellcheck="false" oninput="sanitizeCidrInput(this)">
+                        <label for="uniCIDR">CIDR (e.g. /24)</label>
+                    </div>
+                    <div class="cb-field">
+                        <input type="text" id="uniSubnets" inputmode="numeric" maxlength="3" placeholder=" " autocomplete="off" oninput="sanitizeSubnetCount(this)">
+                        <label for="uniSubnets">Subnets Needed</label>
+                    </div>
+                </div>
+
+                <div class="cb-row cb-row-single">
+                    <div class="cb-field">
+                        <input type="text" id="uniDecimal" inputmode="numeric" placeholder=" " autocomplete="off" oninput="sanitizeDecimalList(this)">
+                        <label for="uniDecimal">Decimal to Binary (e.g. 207, 172)</label>
+                    </div>
+                </div>
+
+                <div class="cb-submit-wrap">
+                    <button type="submit" class="cb-submit">Analyze &amp; Solve</button>
+                </div>
+
+                <div id="unifiedResults" class="results-display" aria-live="polite">
+                    <p class="empty-state">
+                        💡 Fill in one or more fields above, then press Analyze &amp; Solve
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+
+    <!-- TAB 7: QUICK REFERENCE -->
+    <div id="reference" class="tab-content" role="tabpanel" aria-labelledby="mi-reference">
+        <div class="card">
+            <span class="section-tag">Cheat Sheet</span>
+            <h2>📝 Quick Reference Guide</h2>
+            
+            <h3>CIDR to Everything Chart</h3>
+            
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>CIDR</th>
+                        <th>Mask</th>
+                        <th>Wildcard</th>
+                        <th>Total IPs</th>
+                        <th>Usable</th>
+                        <th>Class C Equiv</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>/8</td><td>255.0.0.0</td><td>0.255.255.255</td><td>16,777,216</td><td>16,777,214</td><td>256 C</td></tr>
+                    <tr><td>/16</td><td>255.255.0.0</td><td>0.0.255.255</td><td>65,536</td><td>65,534</td><td>256 C</td></tr>
+                    <tr><td>/17</td><td>255.255.128.0</td><td>0.0.127.255</td><td>32,768</td><td>32,766</td><td>128 C</td></tr>
+                    <tr><td>/18</td><td>255.255.192.0</td><td>0.0.63.255</td><td>16,384</td><td>16,382</td><td>64 C</td></tr>
+                    <tr><td>/19</td><td>255.255.224.0</td><td>0.0.31.255</td><td>8,192</td><td>8,190</td><td>32 C</td></tr>
+                    <tr><td>/20</td><td>255.255.240.0</td><td>0.0.15.255</td><td>4,096</td><td>4,094</td><td>16 C</td></tr>
+                    <tr><td>/21</td><td>255.255.248.0</td><td>0.0.7.255</td><td>2,048</td><td>2,046</td><td>8 C</td></tr>
+                    <tr><td>/22</td><td>255.255.252.0</td><td>0.0.3.255</td><td>1,024</td><td>1,022</td><td>4 C</td></tr>
+                    <tr><td>/23</td><td>255.255.254.0</td><td>0.0.1.255</td><td>512</td><td>510</td><td>2 C</td></tr>
+                    <tr><td>/24</td><td>255.255.255.0</td><td>0.0.0.255</td><td>256</td><td>254</td><td>1 C</td></tr>
+                    <tr><td>/25</td><td>255.255.255.128</td><td>0.0.0.127</td><td>128</td><td>126</td><td>1/2 C</td></tr>
+                    <tr><td>/26</td><td>255.255.255.192</td><td>0.0.0.63</td><td>64</td><td>62</td><td>1/4 C</td></tr>
+                    <tr><td>/27</td><td>255.255.255.224</td><td>0.0.0.31</td><td>32</td><td>30</td><td>1/8 C</td></tr>
+                    <tr><td>/28</td><td>255.255.255.240</td><td>0.0.0.15</td><td>16</td><td>14</td><td>1/16 C</td></tr>
+                    <tr><td>/29</td><td>255.255.255.248</td><td>0.0.0.7</td><td>8</td><td>6</td><td>1/32 C</td></tr>
+                    <tr><td>/30</td><td>255.255.255.252</td><td>0.0.0.3</td><td>4</td><td>2</td><td>Point-to-point</td></tr>
+                    <tr><td>/31</td><td>255.255.255.254</td><td>0.0.0.1</td><td>2</td><td>2</td><td>P2P (no broadcast)</td></tr>
+                    <tr><td>/32</td><td>255.255.255.255</td><td>0.0.0.0</td><td>1</td><td>1</td><td>Host route</td></tr>
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="card">
+            <h2>Powers of 2 (Essential!)</h2>
+            <p class="card-subtitle">Memorize these for instant subnet calculations</p>
+            
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>2^n</th>
+                        <th>Value</th>
+                        <th>2^n</th>
+                        <th>Value</th>
+                        <th>2^n</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2^0</td><td>1</td>
+                        <td>2^8</td><td>256</td>
+                        <td>2^16</td><td>65,536</td>
+                    </tr>
+                    <tr>
+                        <td>2^1</td><td>2</td>
+                        <td>2^9</td><td>512</td>
+                        <td>2^17</td><td>131,072</td>
+                    </tr>
+                    <tr>
+                        <td>2^2</td><td>4</td>
+                        <td>2^10</td><td>1,024</td>
+                        <td>2^18</td><td>262,144</td>
+                    </tr>
+                    <tr>
+                        <td>2^3</td><td>8</td>
+                        <td>2^11</td><td>2,048</td>
+                        <td>2^19</td><td>524,288</td>
+                    </tr>
+                    <tr>
+                        <td>2^4</td><td>16</td>
+                        <td>2^12</td><td>4,096</td>
+                        <td>2^20</td><td>1,048,576</td>
+                    </tr>
+                    <tr>
+                        <td>2^5</td><td>32</td>
+                        <td>2^13</td><td>8,192</td>
+                        <td>2^24</td><td>16,777,216</td>
+                    </tr>
+                    <tr>
+                        <td>2^6</td><td>64</td>
+                        <td>2^14</td><td>16,384</td>
+                        <td>2^32</td><td>4,294,967,296</td>
+                    </tr>
+                    <tr>
+                        <td>2^7</td><td>128</td>
+                        <td>2^15</td><td>32,768</td>
+                        <td></td><td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>Host / Mask Quick Picks</h2>
+            <p class="card-subtitle">
+                Use this table when an exam or design question says "I need X hosts" and you must choose the right subnet mask.
+            </p>
+
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Needed Hosts (min)</th>
+                        <th>Smallest CIDR</th>
+                        <th>Mask (last octet)</th>
+                        <th>Total IPs</th>
+                        <th>Usable Hosts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>2</td>
+                        <td>/30</td>
+                        <td>255.255.255.252</td>
+                        <td>4</td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td>4–6</td>
+                        <td>/29</td>
+                        <td>255.255.255.248</td>
+                        <td>8</td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td>10–14</td>
+                        <td>/28</td>
+                        <td>255.255.255.240</td>
+                        <td>16</td>
+                        <td>14</td>
+                    </tr>
+                    <tr>
+                        <td>20–30</td>
+                        <td>/27</td>
+                        <td>255.255.255.224</td>
+                        <td>32</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>40–62</td>
+                        <td>/26</td>
+                        <td>255.255.255.192</td>
+                        <td>64</td>
+                        <td>62</td>
+                    </tr>
+                    <tr>
+                        <td>80–126</td>
+                        <td>/25</td>
+                        <td>255.255.255.128</td>
+                        <td>128</td>
+                        <td>126</td>
+                    </tr>
+                    <tr>
+                        <td>130–254</td>
+                        <td>/24</td>
+                        <td>255.255.255.0</td>
+                        <td>256</td>
+                        <td>254</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="quick-tips">
+                <h4>🎓 How to use this</h4>
+                <ul>
+                    <li><strong>Step 1</strong>: Take the number of hosts you need.</li>
+                    <li><strong>Step 2</strong>: Find the first row where "Usable Hosts" is ≥ your number.</li>
+                    <li><strong>Step 3</strong>: That row gives you the CIDR and subnet mask to choose.</li>
+                    <li><strong>Memory trick</strong>: /30 → 2, /29 → 6, /28 → 14, /27 → 30, /26 → 62 (roughly double each time).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🌐 TCP/IP Model Overview</h2>
+            <p class="card-subtitle">The four-layer model that powers the modern Internet</p>
+
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Layer #</th>
+                        <th>TCP/IP Layer</th>
+                        <th>OSI Equivalent</th>
+                        <th>Primary Function</th>
+                        <th>Key Protocols</th>
+                        <th>Data Unit</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>4</td>
+                        <td><strong>Application</strong></td>
+                        <td>Application + Presentation + Session</td>
+                        <td>User-facing services and data formatting</td>
+                        <td>HTTP, HTTPS, FTP, SSH, DNS, DHCP, SMTP, POP3, IMAP, SNMP, Telnet</td>
+                        <td>Data / Message</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td><strong>Transport</strong></td>
+                        <td>Transport</td>
+                        <td>End-to-end delivery, reliability, flow control</td>
+                        <td>TCP, UDP</td>
+                        <td>Segment (TCP) / Datagram (UDP)</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td><strong>Internet</strong></td>
+                        <td>Network</td>
+                        <td>Logical addressing and routing across networks</td>
+                        <td>IP (v4/v6), ICMP, ARP, IGMP</td>
+                        <td>Packet</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td><strong>Network Access</strong></td>
+                        <td>Data Link + Physical</td>
+                        <td>Physical transmission and local delivery</td>
+                        <td>Ethernet, Wi-Fi (802.11), PPP, Frame Relay</td>
+                        <td>Frame / Bits</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="note-box" style="margin-top:1rem;">
+                <strong>📦 Encapsulation flow:</strong> Data → Segment → Packet → Frame → Bits. Each layer wraps the data from the layer above with its own header (and sometimes trailer), then passes it down.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔀 TCP vs UDP Comparison</h2>
+            <p class="card-subtitle">When to use each transport protocol</p>
+
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>TCP (Transmission Control Protocol)</th>
+                        <th>UDP (User Datagram Protocol)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Connection</strong></td><td>Connection-oriented (3-way handshake)</td><td>Connectionless</td></tr>
+                    <tr><td><strong>Reliability</strong></td><td>Guaranteed delivery (ACKs, retransmission)</td><td>Best-effort, no guarantee</td></tr>
+                    <tr><td><strong>Ordering</strong></td><td>In-order delivery (sequence numbers)</td><td>No ordering</td></tr>
+                    <tr><td><strong>Flow Control</strong></td><td>Yes (sliding window)</td><td>No</td></tr>
+                    <tr><td><strong>Error Checking</strong></td><td>Checksum + retransmission</td><td>Checksum only (optional in IPv4)</td></tr>
+                    <tr><td><strong>Header Size</strong></td><td>20–60 bytes</td><td>8 bytes</td></tr>
+                    <tr><td><strong>Speed</strong></td><td>Slower (overhead from reliability)</td><td>Faster (minimal overhead)</td></tr>
+                    <tr><td><strong>Use Cases</strong></td><td>Web (HTTP/S), Email, FTP, SSH</td><td>DNS queries, VoIP, video streaming, gaming, DHCP</td></tr>
+                </tbody>
+            </table>
+
+            <div class="example-box" style="margin-top:1rem;">
+                <strong>🤝 TCP 3-Way Handshake:</strong><br>
+                <div class="step-container" style="margin-top:0.5rem;">
+                    <span class="step-number">1</span> <strong>SYN</strong> — Client sends a synchronize request to the server.<br>
+                    <span class="step-number">2</span> <strong>SYN-ACK</strong> — Server acknowledges and sends its own SYN back.<br>
+                    <span class="step-number">3</span> <strong>ACK</strong> — Client acknowledges. Connection is now established.
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🚪 Common Port Numbers</h2>
+            <p class="card-subtitle">Essential ports every network engineer should know</p>
+
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Port</th>
+                        <th>Protocol</th>
+                        <th>Service</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>20</td><td>TCP</td><td>FTP Data</td><td>File transfer (data channel)</td></tr>
+                    <tr><td>21</td><td>TCP</td><td>FTP Control</td><td>File transfer (command channel)</td></tr>
+                    <tr><td>22</td><td>TCP</td><td>SSH</td><td>Secure remote login & file transfer (SCP/SFTP)</td></tr>
+                    <tr><td>23</td><td>TCP</td><td>Telnet</td><td>Unencrypted remote login (legacy)</td></tr>
+                    <tr><td>25</td><td>TCP</td><td>SMTP</td><td>Sending email between servers</td></tr>
+                    <tr><td>53</td><td>TCP/UDP</td><td>DNS</td><td>Domain name resolution</td></tr>
+                    <tr><td>67/68</td><td>UDP</td><td>DHCP</td><td>Dynamic IP address assignment (server/client)</td></tr>
+                    <tr><td>69</td><td>UDP</td><td>TFTP</td><td>Trivial file transfer (no authentication)</td></tr>
+                    <tr><td>80</td><td>TCP</td><td>HTTP</td><td>Web traffic (unencrypted)</td></tr>
+                    <tr><td>110</td><td>TCP</td><td>POP3</td><td>Retrieving email (downloads to client)</td></tr>
+                    <tr><td>143</td><td>TCP</td><td>IMAP</td><td>Retrieving email (server-synced)</td></tr>
+                    <tr><td>161/162</td><td>UDP</td><td>SNMP</td><td>Network device monitoring & management</td></tr>
+                    <tr><td>443</td><td>TCP</td><td>HTTPS</td><td>Secure web traffic (TLS/SSL)</td></tr>
+                    <tr><td>3389</td><td>TCP</td><td>RDP</td><td>Remote Desktop Protocol (Windows)</td></tr>
+                </tbody>
+            </table>
+
+            <div class="note-box" style="margin-top:1rem;">
+                <strong>Port ranges:</strong> Well-Known (0–1023) are reserved for standard services. Registered (1024–49151) are assigned to applications. Dynamic/Ephemeral (49152–65535) are used by clients for temporary connections.
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔧 Essential Network Protocols</h2>
+            <p class="card-subtitle">Key protocols and what they do at each layer</p>
+
+            <h3 style="margin-top:1rem;">Internet Layer Protocols</h3>
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Protocol</th>
+                        <th>Full Name</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>IP</strong></td><td>Internet Protocol</td><td>Logical addressing and routing of packets across networks. IPv4 uses 32-bit addresses; IPv6 uses 128-bit.</td></tr>
+                    <tr><td><strong>ICMP</strong></td><td>Internet Control Message Protocol</td><td>Error reporting and diagnostics (ping, traceroute). Sends messages like "Destination Unreachable" and "Time Exceeded."</td></tr>
+                    <tr><td><strong>ARP</strong></td><td>Address Resolution Protocol</td><td>Maps a known IP address to a MAC address on the local network. Works via broadcast requests.</td></tr>
+                    <tr><td><strong>IGMP</strong></td><td>Internet Group Management Protocol</td><td>Manages multicast group memberships on local network segments.</td></tr>
+                </tbody>
+            </table>
+
+            <h3 style="margin-top:1.5rem;">Application Layer Protocols</h3>
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Protocol</th>
+                        <th>Full Name</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>DNS</strong></td><td>Domain Name System</td><td>Translates domain names (e.g., google.com) into IP addresses. Uses hierarchical name servers (Root → TLD → Authoritative).</td></tr>
+                    <tr><td><strong>DHCP</strong></td><td>Dynamic Host Configuration Protocol</td><td>Automatically assigns IP addresses, subnet masks, default gateways, and DNS servers to clients. Uses DORA: Discover → Offer → Request → Acknowledge.</td></tr>
+                    <tr><td><strong>NAT</strong></td><td>Network Address Translation</td><td>Translates private IP addresses to public IPs (and back) at a router. Enables multiple devices to share one public IP. Types: Static NAT, Dynamic NAT, PAT (Port Address Translation).</td></tr>
+                    <tr><td><strong>HTTP/S</strong></td><td>HyperText Transfer Protocol (Secure)</td><td>Foundation of web communication. GET, POST, PUT, DELETE methods. HTTPS adds TLS encryption on port 443.</td></tr>
+                    <tr><td><strong>FTP</strong></td><td>File Transfer Protocol</td><td>Transfers files between client and server. Uses two channels: control (port 21) and data (port 20). SFTP (over SSH) is the secure alternative.</td></tr>
+                    <tr><td><strong>SSH</strong></td><td>Secure Shell</td><td>Encrypted remote access to devices. Replaced Telnet. Also used for tunneling and secure file transfer (SCP, SFTP).</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>📨 IPv4 Packet Header Structure</h2>
+            <p class="card-subtitle">What's inside every IP packet</p>
+
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Field</th>
+                        <th>Size</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Version</strong></td><td>4 bits</td><td>IP version (4 for IPv4)</td></tr>
+                    <tr><td><strong>IHL</strong></td><td>4 bits</td><td>Header length in 32-bit words (min 5 = 20 bytes)</td></tr>
+                    <tr><td><strong>DSCP / ECN</strong></td><td>8 bits</td><td>Quality of Service (traffic prioritization)</td></tr>
+                    <tr><td><strong>Total Length</strong></td><td>16 bits</td><td>Entire packet size in bytes (max 65,535)</td></tr>
+                    <tr><td><strong>Identification</strong></td><td>16 bits</td><td>Fragment identification for reassembly</td></tr>
+                    <tr><td><strong>Flags + Offset</strong></td><td>16 bits</td><td>Fragmentation control (DF, MF) and fragment offset</td></tr>
+                    <tr><td><strong>TTL</strong></td><td>8 bits</td><td>Time To Live — decremented at each hop, packet discarded at 0</td></tr>
+                    <tr><td><strong>Protocol</strong></td><td>8 bits</td><td>Upper-layer protocol (6 = TCP, 17 = UDP, 1 = ICMP)</td></tr>
+                    <tr><td><strong>Header Checksum</strong></td><td>16 bits</td><td>Error detection for the header only</td></tr>
+                    <tr><td><strong>Source Address</strong></td><td>32 bits</td><td>Sender's IP address</td></tr>
+                    <tr><td><strong>Destination Address</strong></td><td>32 bits</td><td>Receiver's IP address</td></tr>
+                    <tr><td><strong>Options</strong></td><td>Variable</td><td>Optional fields (rarely used; e.g., record route, timestamp)</td></tr>
+                </tbody>
+            </table>
+
+            <div class="formula-box" style="margin-top:1rem;">
+                Minimum IPv4 Header = <strong>20 bytes</strong> (5 × 32-bit words) &nbsp;|&nbsp; Maximum = <strong>60 bytes</strong> (15 × 32-bit words with options)
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🔒 Network Security Essentials</h2>
+            <p class="card-subtitle">Core security concepts for network certification</p>
+
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Concept</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Firewall</strong></td><td>Filters traffic based on rules (source/destination IP, port, protocol). Types: stateless (packet filtering), stateful (tracks connections), application-layer (deep inspection).</td></tr>
+                    <tr><td><strong>ACL</strong></td><td>Access Control List — ordered set of permit/deny rules applied at router interfaces. Standard ACLs filter by source IP; Extended ACLs filter by source, destination, port, and protocol.</td></tr>
+                    <tr><td><strong>VPN</strong></td><td>Virtual Private Network — creates an encrypted tunnel over a public network. Common types: IPsec (site-to-site), SSL/TLS VPN (remote access), WireGuard.</td></tr>
+                    <tr><td><strong>TLS/SSL</strong></td><td>Transport Layer Security — encrypts data in transit. Used by HTTPS, SMTPS, IMAPS. Replaced the older SSL protocol. Uses certificates for authentication.</td></tr>
+                    <tr><td><strong>DMZ</strong></td><td>Demilitarized Zone — a perimeter network segment that exposes public-facing services (web, email) while shielding the internal LAN.</td></tr>
+                    <tr><td><strong>IDS / IPS</strong></td><td>Intrusion Detection / Prevention System — monitors network traffic for threats. IDS alerts; IPS actively blocks. Can be signature-based or anomaly-based.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>📡 Network Device Reference</h2>
+            <p class="card-subtitle">What each device does and where it operates</p>
+
+            <table class="edu-table">
+                <thead>
+                    <tr>
+                        <th>Device</th>
+                        <th>OSI Layer</th>
+                        <th>Addresses Used</th>
+                        <th>Function</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td><strong>Hub</strong></td><td>Layer 1 (Physical)</td><td>None</td><td>Broadcasts all traffic to every port. No intelligence. Legacy device.</td></tr>
+                    <tr><td><strong>Switch</strong></td><td>Layer 2 (Data Link)</td><td>MAC addresses</td><td>Forwards frames only to the correct port using a MAC address table. Creates separate collision domains.</td></tr>
+                    <tr><td><strong>Router</strong></td><td>Layer 3 (Network)</td><td>IP addresses</td><td>Routes packets between different networks/subnets. Creates separate broadcast domains. Uses routing tables.</td></tr>
+                    <tr><td><strong>L3 Switch</strong></td><td>Layer 2 + 3</td><td>MAC + IP</td><td>Switch with routing capability. Can perform inter-VLAN routing at hardware speed.</td></tr>
+                    <tr><td><strong>Firewall</strong></td><td>Layer 3–7</td><td>IP + Ports</td><td>Inspects and filters traffic based on security rules. Can be hardware or software.</td></tr>
+                    <tr><td><strong>Access Point</strong></td><td>Layer 1–2</td><td>MAC addresses</td><td>Bridges wireless clients to a wired network. Manages Wi-Fi connections (802.11).</td></tr>
+                    <tr><td><strong>Load Balancer</strong></td><td>Layer 4–7</td><td>IP + Ports</td><td>Distributes traffic across multiple servers for availability and performance.</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="card">
+            <h2>⚡ Networking Quick Formulas</h2>
+            <p class="card-subtitle">Handy formulas for certification exams and daily work</p>
+
+            <div class="formula-box">
+                <strong>Usable Hosts</strong> = 2<sup>(32 − CIDR)</sup> − 2
+            </div>
+
+            <div class="formula-box" style="margin-top:0.75rem;">
+                <strong>Number of Subnets</strong> = 2<sup>bits borrowed</sup>
+            </div>
+
+            <div class="formula-box" style="margin-top:0.75rem;">
+                <strong>Magic Number (Block Size)</strong> = 256 − subnet mask octet value
+            </div>
+
+            <div class="formula-box" style="margin-top:0.75rem;">
+                <strong>Broadcast Address</strong> = Network Address + Block Size − 1 &nbsp;(in the relevant octet)
+            </div>
+
+            <div class="formula-box" style="margin-top:0.75rem;">
+                <strong>Wildcard Mask</strong> = 255.255.255.255 − Subnet Mask
+            </div>
+
+            <div class="formula-box" style="margin-top:0.75rem;">
+                <strong>Throughput</strong> = Window Size ÷ RTT &nbsp;(basic TCP throughput estimate)
+            </div>
+
+            <div class="quick-tips" style="margin-top:1.25rem;">
+                <h4>🎓 Exam Tips</h4>
+                <div class="dec-steps-table-wrap">
+                    <table class="edu-table dec-steps-table">
+                        <thead>
+                            <tr>
+                                <th>Topic</th>
+                                <th>Tip</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Subnetting shortcut</strong></td>
+                                <td>Find the "interesting" (non-255, non-0) octet in the mask. The block size in that octet determines all subnet boundaries.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AND operation</strong></td>
+                                <td>IP AND Mask = Network Address. Only AND the "interesting" octet; 255 octets stay the same, 0 octets become 0.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>TTL values</strong></td>
+                                <td>Default TTL: 64 (Linux), 128 (Windows), 255 (Cisco). Useful for OS fingerprinting.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Private ranges</strong></td>
+                                <td>10.0.0.0/8 &nbsp;·&nbsp; 172.16.0.0/12 &nbsp;·&nbsp; 192.168.0.0/16 — never routed on the public Internet.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CIDR /31</strong></td>
+                                <td>RFC 3021 — point-to-point links, no broadcast address needed.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: VLSM CALCULATOR -->
+    <div id="vlsm" class="tab-content" role="tabpanel" aria-labelledby="mi-vlsm">
+        <div class="card">
+            <span class="section-tag">Advanced</span>
+            <h2>📐 VLSM Calculator</h2>
+            <p class="card-subtitle">Variable Length Subnet Masking — allocate different-sized subnets from one network to minimize waste</p>
+
+            <div class="interactive-calculator">
+                <div class="calc-input-group">
+                    <label for="vlsmBaseIP">Base Network IP</label>
+                    <input type="text" id="vlsmBaseIP" placeholder="e.g. 192.168.1.0" oninput="sanitizeIpInput(this)" aria-label="Base network IP">
+                </div>
+                <div class="calc-input-group">
+                    <label for="vlsmBaseCIDR">CIDR Prefix</label>
+                    <input type="text" id="vlsmBaseCIDR" placeholder="e.g. 24" inputmode="numeric" maxlength="2" oninput="sanitizeCidrInput(this)" aria-label="CIDR prefix">
+                </div>
+            </div>
+
+            <div class="vlsm-subnets-builder">
+                <h4>Subnet Requirements</h4>
+                <p class="card-subtitle" style="margin-bottom:1rem">Add the subnets you need — VLSM will sort by size and allocate optimally.</p>
+
+                <div id="vlsmSubnetList">
+                    <div class="vlsm-row" data-vlsm-index="0">
+                        <input type="text" class="vlsm-name" placeholder="Subnet name (e.g. Sales)" maxlength="30" aria-label="Subnet name">
+                        <input type="text" class="vlsm-hosts" placeholder="Hosts needed" inputmode="numeric" maxlength="6" aria-label="Hosts needed">
+                        <button class="vlsm-remove-btn" onclick="removeVlsmRow(this)" title="Remove this subnet" aria-label="Remove subnet">&times;</button>
+                    </div>
+                    <div class="vlsm-row" data-vlsm-index="1">
+                        <input type="text" class="vlsm-name" placeholder="Subnet name (e.g. Engineering)" maxlength="30" aria-label="Subnet name">
+                        <input type="text" class="vlsm-hosts" placeholder="Hosts needed" inputmode="numeric" maxlength="6" aria-label="Hosts needed">
+                        <button class="vlsm-remove-btn" onclick="removeVlsmRow(this)" title="Remove this subnet" aria-label="Remove subnet">&times;</button>
+                    </div>
+                </div>
+
+                <div class="vlsm-actions">
+                    <button class="btn-secondary" onclick="addVlsmRow()">+ Add Subnet</button>
+                    <button class="btn-primary" onclick="calculateVLSM()">Calculate VLSM</button>
+                </div>
+            </div>
+
+            <div id="vlsmResults" class="results-display" aria-live="polite"></div>
+        </div>
+
+        <div class="card">
+            <h3>📖 What is VLSM?</h3>
+            <div class="note-box">
+                <p><strong>Variable Length Subnet Masking (VLSM)</strong> allows you to use different subnet masks within the same network, unlike traditional subnetting which uses a single mask for all subnets.</p>
+                <p style="margin-top:8px"><strong>Why use VLSM?</strong> It minimizes IP address waste. A department with 200 hosts gets a /24, while a point-to-point link with 2 hosts gets a /30 — all from the same parent network.</p>
+                <p style="margin-top:8px"><strong>Key rule:</strong> Always allocate the largest subnet first, then fit smaller ones into the remaining space.</p>
+            </div>
+
+            <table class="edu-table" style="margin-top:1rem">
+                <thead>
+                    <tr>
+                        <th>Hosts Needed</th>
+                        <th>Host Bits</th>
+                        <th>CIDR</th>
+                        <th>Block Size</th>
+                        <th>Usable Hosts</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>1–2</td><td>2</td><td>/30</td><td>4</td><td>2</td></tr>
+                    <tr><td>3–6</td><td>3</td><td>/29</td><td>8</td><td>6</td></tr>
+                    <tr><td>7–14</td><td>4</td><td>/28</td><td>16</td><td>14</td></tr>
+                    <tr><td>15–30</td><td>5</td><td>/27</td><td>32</td><td>30</td></tr>
+                    <tr><td>31–62</td><td>6</td><td>/26</td><td>64</td><td>62</td></tr>
+                    <tr><td>63–126</td><td>7</td><td>/25</td><td>128</td><td>126</td></tr>
+                    <tr><td>127–254</td><td>8</td><td>/24</td><td>256</td><td>254</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- TAB: NETWORK TOOLS -->
+    <div id="nettools" class="tab-content" role="tabpanel" aria-labelledby="mi-nettools">
+        <div class="card">
+            <span class="section-tag">Utilities</span>
+            <h2>🔧 Network Tools</h2>
+            <p class="card-subtitle">Practical utilities for network planning and troubleshooting</p>
+        </div>
+
+        <!-- Subnet Overlap Checker -->
+        <div class="card">
+            <h3>🔍 Subnet Overlap Checker</h3>
+            <p class="card-subtitle">Check if two or more subnets overlap in address space</p>
+
+            <div class="interactive-calculator">
+                <div id="overlapInputList">
+                    <div class="overlap-row">
+                        <div class="calc-input-group" style="flex:2">
+                            <label>Subnet 1 IP</label>
+                            <input type="text" class="overlap-ip" placeholder="e.g. 192.168.1.0" oninput="sanitizeIpInput(this)" aria-label="Subnet 1 IP">
+                        </div>
+                        <div class="calc-input-group" style="flex:1">
+                            <label>CIDR</label>
+                            <input type="text" class="overlap-cidr" placeholder="/24" inputmode="numeric" maxlength="2" oninput="sanitizeCidrInput(this)" aria-label="Subnet 1 CIDR">
+                        </div>
+                    </div>
+                    <div class="overlap-row">
+                        <div class="calc-input-group" style="flex:2">
+                            <label>Subnet 2 IP</label>
+                            <input type="text" class="overlap-ip" placeholder="e.g. 192.168.1.128" oninput="sanitizeIpInput(this)" aria-label="Subnet 2 IP">
+                        </div>
+                        <div class="calc-input-group" style="flex:1">
+                            <label>CIDR</label>
+                            <input type="text" class="overlap-cidr" placeholder="/25" inputmode="numeric" maxlength="2" oninput="sanitizeCidrInput(this)" aria-label="Subnet 2 CIDR">
+                        </div>
+                    </div>
+                </div>
+                <div class="vlsm-actions">
+                    <button class="btn-secondary" onclick="addOverlapRow()">+ Add Subnet</button>
+                    <button class="btn-primary" onclick="checkOverlap()">Check Overlap</button>
+                </div>
+            </div>
+
+            <div id="overlapResults" class="results-display" aria-live="polite"></div>
+        </div>
+
+        <!-- Route Summarization -->
+        <div class="card">
+            <h3>📦 Route Summarization (Supernetting)</h3>
+            <p class="card-subtitle">Find the smallest CIDR block that covers multiple contiguous subnets</p>
+
+            <div class="interactive-calculator">
+                <div id="summarizeInputList">
+                    <div class="overlap-row">
+                        <div class="calc-input-group" style="flex:2">
+                            <label>Network 1 IP</label>
+                            <input type="text" class="summarize-ip" placeholder="e.g. 192.168.0.0" oninput="sanitizeIpInput(this)" aria-label="Network 1 IP">
+                        </div>
+                        <div class="calc-input-group" style="flex:1">
+                            <label>CIDR</label>
+                            <input type="text" class="summarize-cidr" placeholder="/24" inputmode="numeric" maxlength="2" oninput="sanitizeCidrInput(this)" aria-label="Network 1 CIDR">
+                        </div>
+                    </div>
+                    <div class="overlap-row">
+                        <div class="calc-input-group" style="flex:2">
+                            <label>Network 2 IP</label>
+                            <input type="text" class="summarize-ip" placeholder="e.g. 192.168.1.0" oninput="sanitizeIpInput(this)" aria-label="Network 2 IP">
+                        </div>
+                        <div class="calc-input-group" style="flex:1">
+                            <label>CIDR</label>
+                            <input type="text" class="summarize-cidr" placeholder="/24" inputmode="numeric" maxlength="2" oninput="sanitizeCidrInput(this)" aria-label="Network 2 CIDR">
+                        </div>
+                    </div>
+                </div>
+                <div class="vlsm-actions">
+                    <button class="btn-secondary" onclick="addSummarizeRow()">+ Add Network</button>
+                    <button class="btn-primary" onclick="calculateSummarize()">Summarize Routes</button>
+                </div>
+            </div>
+
+            <div id="summarizeResults" class="results-display" aria-live="polite"></div>
+        </div>
+
+        <!-- IP Range to CIDR -->
+        <div class="card">
+            <h3>🎯 IP-in-Subnet Checker</h3>
+            <p class="card-subtitle">Check if a specific IP address belongs to a given subnet</p>
+
+            <div class="interactive-calculator">
+                <div class="overlap-row">
+                    <div class="calc-input-group" style="flex:2">
+                        <label for="ipcheckIP">IP Address</label>
+                        <input type="text" id="ipcheckIP" placeholder="e.g. 192.168.1.50" oninput="sanitizeIpInput(this)" aria-label="IP to check">
+                    </div>
+                </div>
+                <div class="overlap-row">
+                    <div class="calc-input-group" style="flex:2">
+                        <label for="ipcheckSubnetIP">Subnet Network</label>
+                        <input type="text" id="ipcheckSubnetIP" placeholder="e.g. 192.168.1.0" oninput="sanitizeIpInput(this)" aria-label="Subnet network IP">
+                    </div>
+                    <div class="calc-input-group" style="flex:1">
+                        <label for="ipcheckCIDR">CIDR</label>
+                        <input type="text" id="ipcheckCIDR" placeholder="/24" inputmode="numeric" maxlength="2" oninput="sanitizeCidrInput(this)" aria-label="Subnet CIDR">
+                    </div>
+                </div>
+                <div style="text-align:center;margin-top:1rem">
+                    <button class="btn-primary" onclick="checkIPInSubnet()">Check</button>
+                </div>
+            </div>
+
+            <div id="ipcheckResults" class="results-display" aria-live="polite"></div>
+        </div>
+    </div>
+
+    <!-- TAB 9: CHALLENGE / QUIZ -->
+    <div id="challenge" class="tab-content" role="tabpanel" aria-labelledby="mi-challenge">
+        <div class="card">
+            <span class="section-tag">Exam Simulator</span>
+            <h2>🏆 Network Certification Drill</h2>
+            <p class="card-subtitle">Timed practice questions to sharpen your subnetting skills under pressure</p>
+
+            <div class="challenge-difficulty" role="radiogroup" aria-label="Difficulty level">
+                <button class="challenge-diff-btn active" onclick="setChallengeDifficulty('easy', this)" aria-pressed="true">Easy (Binary + /24–/30)</button>
+                <button class="challenge-diff-btn" onclick="setChallengeDifficulty('medium', this)" aria-pressed="false">Medium (/16–/23)</button>
+                <button class="challenge-diff-btn" onclick="setChallengeDifficulty('hard', this)" aria-pressed="false">Hard (/8–/32)</button>
+            </div>
+
+            <div class="challenge-options-row">
+                <label class="challenge-toggle" title="Enable or disable the countdown timer">
+                    <input type="checkbox" id="challengeTimerToggle" checked onchange="toggleChallengeTimer(this.checked)">
+                    <span class="challenge-toggle-slider"></span>
+                    <span class="challenge-toggle-label">⏱ Timer</span>
+                </label>
+            </div>
+
+            <div class="challenge-score" aria-label="Score summary">
+                <div class="challenge-score-item">
+                    <span class="challenge-score-val challenge-score-val--streak" id="challengeStreak">0</span>
+                    <span class="challenge-score-lbl">Streak</span>
+                </div>
+                <div class="challenge-score-item">
+                    <span class="challenge-score-val challenge-score-val--correct" id="challengeCorrect">0</span>
+                    <span class="challenge-score-lbl">Correct</span>
+                </div>
+                <div class="challenge-score-item">
+                    <span class="challenge-score-val challenge-score-val--total" id="challengeTotal">0</span>
+                    <span class="challenge-score-lbl">Attempted</span>
+                </div>
+            </div>
+
+            <div class="challenge-timer-wrap" id="challengeTimerWrap" style="display:none;">
+                <span id="challengeTimerText" class="challenge-timer-text">30s</span>
+                <div class="challenge-timer-bar">
+                    <div id="challengeTimerFill" class="challenge-timer-fill" style="width:100%"></div>
+                </div>
+                <button onclick="extendChallengeTimer()" class="challenge-extend-btn" id="challengeExtendBtn" title="Add 15 seconds">+15s</button>
+            </div>
+
+            <div id="challengeQuestionArea" class="challenge-question-card">
+                <p style="color:var(--text-muted)">Press "Start Challenge" to begin!</p>
+            </div>
+
+            <div class="challenge-input-row" id="challengeInputRow">
+                <input type="text" id="challengeAnswer" placeholder="Type your answer here..." autocomplete="off" aria-label="Your answer" onkeydown="if(event.key==='Enter'){checkChallengeAnswer();}">
+                <button onclick="checkChallengeAnswer()" style="white-space:nowrap">Submit</button>
+                <button onclick="showChallengeHint()" class="btn-secondary challenge-hint-btn" id="challengeHintBtn" title="Get a context-specific hint">💡 Hint</button>
+                <button onclick="skipChallengeQuestion()" class="btn-secondary challenge-skip-btn" id="challengeSkipBtn" title="Skip this question">⏭ Skip</button>
+            </div>
+
+            <div id="challengeHint" class="note-box challenge-hint-box" style="display:none;" aria-live="polite"></div>
+
+            <div style="text-align:center; margin-top:0.5rem;" id="challengeStartWrap">
+                <button onclick="generateChallenge()" class="btn-primary" id="challengeStartBtn">Start Challenge</button>
+            </div>
+
+            <div id="challengeFeedback" aria-live="polite"></div>
+
+            <div class="challenge-history-section" id="challengeHistorySection">
+                <h3 style="margin:1.5rem 0 0.75rem 0">📈 Session History</h3>
+                <div id="challengeHistory" class="challenge-history-grid"></div>
+                <div style="text-align:center;margin-top:0.75rem">
+                    <button class="btn-secondary" onclick="clearChallengeHistory()" style="font-size:0.8rem">Clear History</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 11: NETWORK DIAGRAM GENERATOR -->
+    <div id="diagram" class="tab-content" role="tabpanel" aria-labelledby="mi-diagram">
+        <div class="card">
+            <span class="section-tag">Visualizer</span>
+            <h2>📊 Network Diagram Generator</h2>
+            <p class="card-subtitle">Visualize subnets as an interactive hub-and-spoke topology diagram</p>
+
+            <div class="interactive-calculator">
+                <div class="calc-input-group">
+                    <label>Base Network IP</label>
+                    <input type="text" id="diagramBaseIP" placeholder="e.g. 192.168.1.0" oninput="sanitizeIpInput(this)" aria-label="Base network IP address">
+                </div>
+                <div class="calc-input-group">
+                    <label>CIDR Prefix</label>
+                    <input type="text" id="diagramCIDR" placeholder="e.g. 24" oninput="sanitizeCidrInput(this)" aria-label="CIDR prefix length">
+                </div>
+                <div class="calc-input-group">
+                    <label>Number of Subnets</label>
+                    <input type="text" id="diagramCount" placeholder="e.g. 4" oninput="sanitizeSubnetCount(this)" aria-label="Number of subnets">
+                </div>
+                <div style="text-align:center; margin-top:1rem;">
+                    <button class="btn-primary" onclick="generateDiagram()">Generate Diagram</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="diagramOutput"></div>
+        <div id="diagramInfo"></div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
