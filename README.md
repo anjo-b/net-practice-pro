@@ -117,8 +117,8 @@ netpracticeV1/
 
 1. **Clone or download** the repository:
    ```bash
-   git clone <repository-url>
-   cd netpracticeV1
+   git clone https://github.com/anjo-b/net-practice-pro.git
+   cd net-practice-pro
    ```
 
 2. **Open `index.html`** in any modern web browser:
@@ -231,3 +231,4 @@ The **countdown timer is optional** — users toggle it on/off via `toggleChalle
 - **Accessibility Audit** — improve color contrast ratios for some visualization segments and add screen-reader-only labels to the bit strip cells. (`aria-current` tracking, skip-to-content link, and keyboard navigation are already implemented.)
 - **Drag-and-drop VLSM** — visual drag interface for rearranging and resizing subnet allocations.
 - **Import/Export Subnet Plans** — save and load VLSM or subnet configurations as JSON files.
+
