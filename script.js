@@ -1762,40 +1762,6 @@ function buildDiagramInfoTable(subnets, baseCIDR, newCIDR, mask) {
     return html;
 }
 
-/* =============================================
-   Theme Toggle (Dark Mode)
-   ============================================= */
-function toggleTheme() {
-    var html = document.documentElement;
-    var current = html.getAttribute('data-theme');
-    var next = current === 'dark' ? 'light' : 'dark';
-    html.setAttribute('data-theme', next);
-    localStorage.setItem('theme', next);
-    updateThemeIcon(next);
-}
-
-function updateThemeIcon(theme) {
-    var btn = document.getElementById('themeToggle');
-    if (btn) {
-        btn.textContent = theme === 'dark' ? '\uD83C\uDF19' : '\u2600\uFE0F';
-        btn.title = theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode';
-    }
-}
-
-function applyStoredTheme() {
-    var stored = localStorage.getItem('theme');
-    if (!stored) {
-        /* Check system preference */
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            stored = 'dark';
-        } else {
-            stored = 'light';
-        }
-    }
-    document.documentElement.setAttribute('data-theme', stored);
-    updateThemeIcon(stored);
-}
-
 /* Helper: read a CSS custom property value from the document root */
 function getCSSVar(name) {
     return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
@@ -1805,7 +1771,6 @@ function getCSSVar(name) {
    Accessibility — Keyboard Navigation
    ============================================= */
 document.addEventListener('DOMContentLoaded', function() {
-    applyStoredTheme();
     updateBlockDivider();
 
     /* --- Menu keyboard handling --- */
@@ -2601,10 +2566,6 @@ function clearChallengeHistory() {
     var PARTICLE_COUNT = 50;
     var CONNECT_DIST = 130;
 
-    function isDark() {
-        return document.documentElement.getAttribute('data-theme') === 'dark';
-    }
-
     function resize() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
@@ -2629,11 +2590,10 @@ function clearChallengeHistory() {
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        var dark = isDark();
-        var lineAlphaScale = dark ? 0.08 : 0.05;
-        var dotSat = dark ? '70%' : '50%';
-        var dotLit = dark ? '70%' : '55%';
-        var glowAlphaScale = dark ? 0.15 : 0.08;
+        var lineAlphaScale = 0.05;
+        var dotSat = '50%';
+        var dotLit = '55%';
+        var glowAlphaScale = 0.08;
 
         /* Draw connections */
         for (var i = 0; i < particles.length; i++) {
@@ -2643,9 +2603,7 @@ function clearChallengeHistory() {
                 var dist = Math.sqrt(dx * dx + dy * dy);
                 if (dist < CONNECT_DIST) {
                     var alpha = (1 - dist / CONNECT_DIST) * lineAlphaScale;
-                    ctx.strokeStyle = dark
-                        ? 'rgba(96, 165, 250, ' + alpha + ')'
-                        : 'rgba(59, 130, 196, ' + alpha + ')';
+                    ctx.strokeStyle = 'rgba(59, 130, 196, ' + alpha + ')';
                     ctx.lineWidth = 0.5;
                     ctx.beginPath();
                     ctx.moveTo(particles[i].x, particles[i].y);
