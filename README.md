@@ -96,7 +96,7 @@ One-click **📋 Copy** buttons on result areas across the Unified Tool, From Ma
 | Styling   | CSS3 (custom properties, grid, flexbox, animations) |
 | Scripting | Vanilla JavaScript (ES5-compatible, no transpiler needed) |
 | Font      | [Inter](https://fonts.google.com/specimen/Inter) via Google Fonts |
-| Storage   | `localStorage` for theme preference and challenge history |
+| Storage   | `localStorage` for challenge history |
 
 **No frameworks, no build tools, no runtime dependencies.** The entire application is three static files.
 
@@ -107,8 +107,8 @@ One-click **📋 Copy** buttons on result areas across the Unified Tool, From Ma
 ```
 netpracticeV1/
 ├── index.html    # Complete page structure — all 13 tabs, forms, tables, and reference content (~1,900 lines)
-├── script.js     # Application logic — calculators, converters, VLSM, network tools, exam simulator, diagram generator, particle background, theme toggle, accessibility (~2,400 lines)
-├── style.css     # Full styling — layout, components, responsive design, dark mode, particle canvas, timer, hint UI, accessibility (~2,000 lines)
+├── script.js     # Application logic — calculators, converters, VLSM, network tools, exam simulator, diagram generator, particle background, accessibility (~2,400 lines)
+├── style.css     # Full styling — layout, components, responsive design, particle canvas, timer, hint UI, accessibility (~2,000 lines)
 └── README.md     # This file
 ```
 
@@ -207,14 +207,13 @@ The **countdown timer is optional** — users toggle it on/off via `toggleChalle
 | Review past quiz performance | **Challenge** tab — scroll to Session History |
 | Generate a subnet topology diagram | **Network Diagram** tab — enter base IP, CIDR, subnet count |
 | Copy any result to clipboard | Click the **📋 Copy** button on any result panel |
-| Toggle light/dark theme | **☀️ / 🌙 button** in the header |
 
 ---
 
 ## Known Limitations
 
 - **IPv4 only** — no IPv6 support.
-- **Partial state persistence** — theme preference and challenge history are persisted via `localStorage`. Other inputs and the active tab reset on page reload.
+- **Partial state persistence** — challenge history is persisted via `localStorage`. Other inputs and the active tab reset on page reload.
 - **Visualization capped** — the proportional bar shows a maximum of 16 subnet segments; additional subnets are summarized as "+ N more."
 - **Static content** — reference tables are hardcoded in HTML; updating them requires editing `index.html` directly.
 - **Single-page scroll** — with 13 tabs of dense content, the initial HTML payload is large (~1,900 lines), though only one tab is visible at a time.
